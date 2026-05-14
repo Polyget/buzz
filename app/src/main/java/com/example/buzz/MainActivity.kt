@@ -28,8 +28,13 @@ class MainActivity : ComponentActivity() {
             System.loadLibrary("native-lib")
         }
 
+        @JvmStatic
         external fun tuneToFrequency(freqHz: Long)
+
+        @JvmStatic
         external fun readRawData(): ByteArray?
+
+        @JvmStatic
         external fun demodulateAM(rawData: ByteArray): ByteArray
     }
 }
