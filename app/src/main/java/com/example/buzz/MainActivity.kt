@@ -27,6 +27,10 @@ class MainActivity : ComponentActivity() {
         init {
             System.loadLibrary("native-lib")
         }
+
+        external fun tuneToFrequency(freqHz: Long)
+        external fun readRawData(): ByteArray?
+        external fun demodulateAM(rawData: ByteArray): ByteArray
     }
 }
 
@@ -48,11 +52,11 @@ fun BuzzApp() {
         TextField(value = frequency, onValueChange = {}, enabled = false, label = { Text("Frequency") })
         Button(onClick = {
             if (rootStatus) {
-                tuneToFrequency(4625000L)
+                MainActivity.tuneToFrequency(4625000L)
                 tuned = !tuned
-                val raw = readRawData()
+                val raw = MainActivity.readRawData()
                 if (raw != null) {
-                    audioData = demodulateAM(raw)
+                    audioData = MainActivity.demodulateAM(raw)
                 }
                 log = getLogs()
             }
@@ -96,7 +100,3 @@ fun getLogs(): String {
         "Error reading logs: ${e.message}"
     }
 }
-
-external fun tuneToFrequency(freqHz: Long)
-external fun readRawData(): ByteArray?
-external fun demodulateAM(rawData: ByteArray): ByteArray
